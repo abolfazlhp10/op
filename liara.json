@@ -1,0 +1,6 @@
+{
+    "app":"api-op-test",
+    "laravel": {
+      "phpVersion": "8.1"
+    }
+  }
