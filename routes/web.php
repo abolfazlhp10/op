@@ -21,16 +21,3 @@ use Illuminate\Support\Facades\Response;
 |
 */
 
-
-Route::post('login', [UsersController::class, 'login']);
-Route::post('signup', [UsersController::class, 'signup']);
-Route::post('logout', [UsersController::class, 'logout']);
-
-Route::get('user/{id}/edit', [UsersController::class, 'edit'])->middleware('auth:santcum');
-Route::put('user/{id}', [UsersController::class, 'update']);
-Route::get('user/{email}', [UsersController::class, 'checkUserEmail']);
-
-
-Route::get('forgetPassword/{email}',[UsersController::class,'sendForgetLink']);
-
-Route::post('forgetPassword/{email}/{token}',[UsersController::class,'forgetPassword']);

@@ -16,9 +16,9 @@ class Admin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()){
-            if(auth()->user()->role!='admin'){
-                abort(404);
+        if (auth()->user()) {
+            if (auth()->user()->role != 'admin') {
+                return response()->json(['message' => 'page not found'], 404);
             }
         }
 

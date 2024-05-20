@@ -76,7 +76,11 @@ class UsersController extends Controller
         if (!Hash::check($password, $passwordHash)) {
             return response()->json(['message' => 'رمز عبور و یا آدرس ایمیل اشتباه است'], 401);
         } else {
-            return response()->json(['message' => 'با موفقیت وارد شدید', 'user' => $user], 200);
+
+            //create token 
+            $token = $user->createToken('userToken')->plainTextToken;
+
+            return response()->json(['message' => 'با موفقیت وارد شدید', 'token' => $token, 'user' => $user], 200);
         }
     }
 
@@ -142,8 +146,8 @@ class UsersController extends Controller
     {
 
         // email validation
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
-            return response()->json(['message'=>'please insert valid email address'],422);
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return response()->json(['message' => 'please insert valid email address'], 422);
         }
 
         //check email in db
@@ -185,8 +189,9 @@ class UsersController extends Controller
         return response()->json(['message' => 'password changed successfully']);
     }
 
-    public function showAllUsers(){
-        $users=User::all();
-        return response()->json(['data'=>$users]);
+    public function showAllUsers()
+    {
+        $users = User::all();
+        return response()->json(['data' => $users]);
     }
 }

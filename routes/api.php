@@ -29,8 +29,22 @@ use App\Http\Controllers\CommentsController;
 */
 
 
-// Route::middleware(['auth:sanctum'])->group(function(){
+Route::post('login', [UsersController::class, 'login']);
+Route::post('signup', [UsersController::class, 'signup']);
 
+Route::get('user/{id}/edit', [UsersController::class, 'edit']);
+Route::put('user/{id}', [UsersController::class, 'update']);
+Route::get('user/{email}', [UsersController::class, 'checkUserEmail']);
+
+
+Route::get('forgetPassword/{email}', [UsersController::class, 'sendForgetLink']);
+
+Route::post('forgetPassword/{email}/{token}', [UsersController::class, 'forgetPassword']);
+
+
+
+Route::middleware(['auth:sanctum'])->group(function () {
+    
     /*MENUS*/
 
     Route::get('/menus/showclint', [\App\Http\Controllers\MenuController::class, 'showclint']);
@@ -62,9 +76,9 @@ use App\Http\Controllers\CommentsController;
 
     Route::get('/orders/{userid}/order-count', [\App\Http\Controllers\OrderController::class, 'getOrderCount']);
 
-// });
+});
 
-// Route::middleware(['admin','auth:sanctum'])->group(function(){
+Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::post('/menus/store', [MenuController::class, 'store']);
     Route::post('/menus/update/{menu}', [\App\Http\Controllers\MenuController::class, 'update']);
     Route::get('/menus/showadmin', [\App\Http\Controllers\MenuController::class, 'showadmin']);
@@ -73,7 +87,7 @@ use App\Http\Controllers\CommentsController;
     Route::post('/carts/store', [\App\Http\Controllers\CartController::class, 'store']);
     Route::put('/carts/update/{cart}', [\App\Http\Controllers\CartController::class, 'update']);
     Route::delete('/carts/destroy/{cart}', [\App\Http\Controllers\CartController::class, 'destroy']);
-    Route::get('cart/{id}',[\App\Http\Controllers\CartController::class,'showOneCart']);
+    Route::get('cart/{id}', [\App\Http\Controllers\CartController::class, 'showOneCart']);
 
     Route::post('/logos/store', [\App\Http\Controllers\LogoController::class, 'store']);
     Route::post('/logos/update/{logo}', [\App\Http\Controllers\LogoController::class, 'update']);
@@ -81,11 +95,11 @@ use App\Http\Controllers\CommentsController;
     Route::post('/links/store', [\App\Http\Controllers\LinkinsagramController::class, 'store']);
     Route::post('/links/update/{links}', [\App\Http\Controllers\LinkinsagramController::class, 'update']);
 
-    Route::get('show-users',[UsersController::class,'showAllUsers']);
+    Route::get('show-users', [UsersController::class, 'showAllUsers']);
 
-    Route::get('orders',[\App\Http\Controllers\OrderController::class,'index']);
+    Route::get('orders', [\App\Http\Controllers\OrderController::class, 'index']);
 
-	/*articles*/
+    /*articles*/
 
     Route::post('/articles/', [\App\Http\Controllers\ArticleController::class, 'store']);
     Route::post('/articles/update/{article}', [\App\Http\Controllers\ArticleController::class, 'update']);
@@ -95,29 +109,23 @@ use App\Http\Controllers\CommentsController;
     // comments
 
     //store comment
-    Route::post('comments/',[CommentsController::class,'store']);
+    Route::post('comments/', [CommentsController::class, 'store']);
 
     //change comment status
-    Route::post('comments/{comment_id}/changeStatus',[CommentsController::class,'changeStatus']);
+    Route::post('comments/{comment_id}/changeStatus', [CommentsController::class, 'changeStatus']);
 
     //update commment
-    Route::put('comments/{comment_id}',[CommentsController::class,'update']);
+    Route::put('comments/{comment_id}', [CommentsController::class, 'update']);
 
     //delete comment
-    Route::delete('comments/{comment_id}',[CommentsController::class,'destroy']);
+    Route::delete('comments/{comment_id}', [CommentsController::class, 'destroy']);
 
     //show all comments related to the article
-    Route::get('comments/{article_id}',[CommentsController::class,'show']);
+    Route::get('comments/{article_id}', [CommentsController::class, 'show']);
 
     //show all comments in admin panel
-    Route::get('admin/comments/',[CommentsController::class,'showAllComments']);
+    Route::get('admin/comments/', [CommentsController::class, 'showAllComments']);
 
     //admin reply to user
-    Route::post('admin/replyToComment/{comment_id}',[CommentsController::class,'reply']);
-
-
-
-// });
-
-
-
+    Route::post('admin/replyToComment/{comment_id}', [CommentsController::class, 'reply']);
+});
